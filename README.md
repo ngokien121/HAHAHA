@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
@@ -158,7 +159,6 @@ body{
 
 <div class="container">
 
-```
 <!-- LOGIN -->
 
 <div class="box" id="loginBox">
@@ -230,7 +230,6 @@ body{
     </div>
 
 </div>
-```
 
 </div>
 
