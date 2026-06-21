@@ -1,354 +1,337 @@
 <!DOCTYPE html>
-
 <html lang="vi">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KTStudio Login</title>
+
+<title>Secret Access</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
 <style>
 
 *{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Segoe UI,sans-serif;
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Inter',sans-serif;
 }
 
 body{
-    overflow:hidden;
+width:100%;
+height:100vh;
+overflow:hidden;
+
+display:flex;
+justify-content:center;
+align-items:center;
+
+background:#000;
+position:relative;
 }
 
 /* VIDEO */
 
-#bgVideo{
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    z-index:-2;
+#bg-video{
+position:fixed;
+top:0;
+left:0;
+
+width:100%;
+height:100%;
+
+object-fit:cover;
+
+z-index:-2;
 }
+
+/* LỚP PHỦ */
 
 .overlay{
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.65);
-    z-index:-1;
+position:fixed;
+inset:0;
+
+background:
+linear-gradient(
+to bottom,
+rgba(0,0,0,.25),
+rgba(0,0,0,.65)
+);
+
+z-index:-1;
 }
 
-/* LOGIN BOX */
+/* KHUNG */
 
 .container{
-    width:100%;
-    height:100vh;
 
-    display:flex;
-    justify-content:center;
-    align-items:center;
+width:90%;
+max-width:420px;
+
+padding:40px;
+
+background:rgba(255,255,255,.05);
+
+backdrop-filter:blur(14px);
+
+border:1px solid rgba(255,255,255,.12);
+
+border-radius:24px;
+
+text-align:center;
 }
 
-.box{
+/* TITLE */
 
-    width:420px;
+.title{
 
-    background:rgba(0,0,0,.75);
+font-size:13px;
 
-    padding:40px;
+letter-spacing:8px;
 
-    border-radius:10px;
+color:white;
 
-    color:white;
+opacity:.8;
 
-    backdrop-filter:blur(8px);
+margin-bottom:30px;
+
 }
 
-.logo{
+/* INPUT */
 
-    text-align:center;
+input{
 
-    font-size:40px;
+width:100%;
 
-    color:#ff6b00;
+padding:18px;
 
-    margin-bottom:20px;
+border:none;
+outline:none;
 
-    font-weight:bold;
+border-radius:14px;
+
+background:rgba(255,255,255,.08);
+
+color:white;
+
+font-size:16px;
+
+text-align:center;
 }
 
-.box h2{
-
-    margin-bottom:20px;
+input::placeholder{
+color:rgba(255,255,255,.6);
 }
 
-.box input{
+/* BUTTON */
 
-    width:100%;
+button{
 
-    padding:14px;
+width:100%;
 
-    margin:8px 0;
+margin-top:15px;
 
-    border:none;
+padding:16px;
 
-    border-radius:5px;
+border:none;
 
-    background:#333;
+border-radius:14px;
 
-    color:white;
+cursor:pointer;
+
+font-weight:600;
+
+letter-spacing:2px;
+
+background:white;
+
+color:black;
+
+transition:.3s;
 }
 
-.box button{
-
-    width:100%;
-
-    padding:14px;
-
-    margin-top:10px;
-
-    border:none;
-
-    border-radius:5px;
-
-    background:#e50914;
-
-    color:white;
-
-    cursor:pointer;
+button:hover{
+transform:translateY(-2px);
 }
 
-.box button:hover{
+/* ERROR */
 
-    opacity:.9;
+#error{
+
+display:none;
+
+margin-top:15px;
+
+color:#ff8c8c;
+
+font-size:14px;
 }
 
-.link{
+/* SHAKE */
 
-    margin-top:15px;
-
-    text-align:center;
-
-    color:#aaa;
+.shake{
+animation:shake .35s;
 }
 
-.link span{
+@keyframes shake{
 
-    color:white;
+0%{transform:translateX(0);}
+25%{transform:translateX(-8px);}
+50%{transform:translateX(8px);}
+75%{transform:translateX(-8px);}
+100%{transform:translateX(0);}
 
-    cursor:pointer;
 }
 
-/* REGISTER */
+/* FADE */
 
-#registerBox{
+#fade{
 
-    display:none;
+position:fixed;
+inset:0;
+
+background:black;
+
+opacity:0;
+
+pointer-events:none;
+
+transition:2s;
+
+z-index:999;
+}
+
+#fade.show{
+opacity:1;
+}
+
+@media(max-width:768px){
+
+.container{
+padding:28px;
+}
+
+.title{
+letter-spacing:5px;
+}
+
 }
 
 </style>
-
 </head>
 
 <body>
 
-<video autoplay muted loop id="bgVideo">
-    <source src="login.mp4" type="video/mp4">
+<video
+id="bg-video"
+autoplay
+muted
+loop
+playsinline>
+
+<source
+src="img/city.mp4"
+type="video/mp4">
+
 </video>
 
 <div class="overlay"></div>
 
-<div class="container">
+<div id="fade"></div>
 
-<!-- LOGIN -->
+<div class="container" id="box">
 
-<div class="box" id="loginBox">
-
-    <div class="logo">
-        KTStudio
-    </div>
-
-    <h2>Đăng nhập</h2>
-
-    <input
-        type="text"
-        id="loginUser"
-        placeholder="Tên đăng nhập">
-
-    <input
-        type="password"
-        id="loginPass"
-        placeholder="Mật khẩu">
-
-    <button onclick="login()">
-        Đăng nhập
-    </button>
-
-    <div class="link">
-
-        Chưa có tài khoản?
-
-        <span onclick="showRegister()">
-            Đăng ký
-        </span>
-
-    </div>
-
+<div class="title">
+SECRET CODE
 </div>
 
-<!-- REGISTER -->
+<input
+id="code"
+type="password"
+placeholder="Enter Code">
 
-<div class="box" id="registerBox">
+<button onclick="login()">
+ENTER
+</button>
 
-    <div class="logo">
-        KTStudio
-    </div>
-
-    <h2>Đăng ký</h2>
-
-    <input
-        type="text"
-        id="registerUser"
-        placeholder="Tên đăng nhập">
-
-    <input
-        type="password"
-        id="registerPass"
-        placeholder="Mật khẩu">
-
-    <button onclick="registerUser()">
-        Đăng ký
-    </button>
-
-    <div class="link">
-
-        Đã có tài khoản?
-
-        <span onclick="showLogin()">
-            Đăng nhập
-        </span>
-
-    </div>
-
+<div id="error">
+Invalid Code
 </div>
 
 </div>
+
+<audio id="music">
+<source src="audio/denied.mp3" type="audio/mpeg">
+</audio>
 
 <script>
 
-function showRegister(){
-
-    document.getElementById("loginBox")
-    .style.display="none";
-
-    document.getElementById("registerBox")
-    .style.display="block";
-}
-
-function showLogin(){
-
-    document.getElementById("registerBox")
-    .style.display="none";
-
-    document.getElementById("loginBox")
-    .style.display="block";
-}
-
-/* ĐĂNG KÝ */
-
-function registerUser(){
-
-    const user =
-    document.getElementById("registerUser")
-    .value.trim();
-
-    const pass =
-    document.getElementById("registerPass")
-    .value.trim();
-
-    if(!user || !pass){
-
-        alert("Vui lòng nhập đầy đủ thông tin");
-        return;
-    }
-
-    let users =
-    JSON.parse(
-        localStorage.getItem("ktstudio_users")
-        || "[]"
-    );
-
-    if(
-        users.find(
-            x => x.username === user
-        )
-    ){
-
-        alert("Tài khoản đã tồn tại");
-        return;
-    }
-
-    users.push({
-
-        username:user,
-        password:pass
-
-    });
-
-    localStorage.setItem(
-        "ktstudio_users",
-        JSON.stringify(users)
-    );
-
-    alert("Đăng ký thành công");
-
-    showLogin();
-}
-
-/* ĐĂNG NHẬP */
+const PASSWORD = "252";
 
 function login(){
 
-    const user =
-    document.getElementById("loginUser")
-    .value.trim();
+const value =
+document.getElementById("code")
+.value
+.trim();
 
-    const pass =
-    document.getElementById("loginPass")
-    .value.trim();
+if(value === PASSWORD){
 
-    let users =
-    JSON.parse(
-        localStorage.getItem("ktstudio_users")
-        || "[]"
-    );
+startSequence();
 
-    let account =
-    users.find(
+}else{
 
-        x =>
+const box =
+document.getElementById("box");
 
-        x.username === user &&
-        x.password === pass
+document
+.getElementById("error")
+.style.display = "block";
 
-    );
+box.classList.add("shake");
 
-    if(!account){
+setTimeout(()=>{
 
-        alert("Sai tài khoản hoặc mật khẩu");
-        return;
-    }
+box.classList.remove("shake");
 
-    localStorage.setItem(
-        "ktstudio_session",
-        user
-    );
+},350);
 
-    /* ĐỔI LINK TẠI ĐÂY */
-
-    window.location.href =
-    "https://VIET69.BE";
 }
+
+}
+
+function startSequence(){
+
+document
+.getElementById("fade")
+.classList.add("show");
+
+const music =
+document.getElementById("music");
+
+music.play().catch(()=>{});
+
+music.onended = ()=>{
+
+window.location.href =
+"https://viet69.be/";
+
+};
+
+}
+
+document
+.getElementById("code")
+.addEventListener("keydown",e=>{
+
+if(e.key==="Enter"){
+
+login();
+
+}
+
+});
 
 </script>
 
