@@ -1,13 +1,11 @@
+```html
 <!DOCTYPE html>
 <html lang="vi">
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Secret Access</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
 <style>
 
@@ -15,190 +13,131 @@
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family:'Inter',sans-serif;
+font-family:Arial,sans-serif;
 }
 
 body{
 width:100%;
 height:100vh;
 overflow:hidden;
-
 display:flex;
 justify-content:center;
 align-items:center;
-
 background:#000;
-position:relative;
 }
 
-/* VIDEO */
+/* Video nền */
 
 #bg-video{
 position:fixed;
 top:0;
 left:0;
-
 width:100%;
 height:100%;
-
 object-fit:cover;
-
 z-index:-2;
 }
 
-/* LỚP PHỦ */
+/* Overlay */
 
 .overlay{
 position:fixed;
 inset:0;
-
-background:
-linear-gradient(
-to bottom,
-rgba(0,0,0,.25),
-rgba(0,0,0,.65)
-);
-
+background:rgba(0,0,0,.45);
 z-index:-1;
 }
 
-/* KHUNG */
+/* Khung */
 
 .container{
-
 width:90%;
-max-width:420px;
+max-width:400px;
 
-padding:40px;
+padding:35px;
 
-background:rgba(255,255,255,.05);
+background:rgba(255,255,255,.08);
 
-backdrop-filter:blur(14px);
+backdrop-filter:blur(12px);
 
-border:1px solid rgba(255,255,255,.12);
-
-border-radius:24px;
+border-radius:20px;
 
 text-align:center;
 }
 
-/* TITLE */
+/* Tiêu đề */
 
 .title{
-
-font-size:13px;
-
-letter-spacing:8px;
-
 color:white;
-
-opacity:.8;
-
-margin-bottom:30px;
-
+letter-spacing:6px;
+margin-bottom:25px;
+font-size:14px;
 }
 
-/* INPUT */
+/* Input */
 
 input{
-
 width:100%;
-
-padding:18px;
+padding:16px;
 
 border:none;
 outline:none;
 
-border-radius:14px;
+border-radius:12px;
 
-background:rgba(255,255,255,.08);
+background:rgba(255,255,255,.12);
 
 color:white;
-
-font-size:16px;
 
 text-align:center;
 }
 
-input::placeholder{
-color:rgba(255,255,255,.6);
-}
-
-/* BUTTON */
+/* Nút */
 
 button{
-
 width:100%;
-
+padding:15px;
 margin-top:15px;
-
-padding:16px;
 
 border:none;
 
-border-radius:14px;
+border-radius:12px;
 
 cursor:pointer;
 
-font-weight:600;
-
-letter-spacing:2px;
-
-background:white;
-
-color:black;
-
-transition:.3s;
+font-weight:bold;
 }
 
-button:hover{
-transform:translateY(-2px);
-}
-
-/* ERROR */
+/* Error */
 
 #error{
-
 display:none;
-
 margin-top:15px;
-
-color:#ff8c8c;
-
-font-size:14px;
+color:#ff9a9a;
 }
 
-/* SHAKE */
+/* Shake */
 
 .shake{
 animation:shake .35s;
 }
 
 @keyframes shake{
-
 0%{transform:translateX(0);}
 25%{transform:translateX(-8px);}
 50%{transform:translateX(8px);}
 75%{transform:translateX(-8px);}
 100%{transform:translateX(0);}
-
 }
 
-/* FADE */
+/* Fade */
 
 #fade{
-
 position:fixed;
 inset:0;
-
 background:black;
-
 opacity:0;
-
 pointer-events:none;
-
 transition:2s;
-
 z-index:999;
 }
 
@@ -206,34 +145,13 @@ z-index:999;
 opacity:1;
 }
 
-@media(max-width:768px){
-
-.container{
-padding:28px;
-}
-
-.title{
-letter-spacing:5px;
-}
-
-}
-
 </style>
 </head>
 
 <body>
 
-<video
-id="bg-video"
-autoplay
-muted
-loop
-playsinline>
-
-<source
-src="img/city.mp4"
-type="video/mp4">
-
+<video id="bg-video" autoplay muted loop playsinline>
+<source src="city.mp4" type="video/mp4">
 </video>
 
 <div class="overlay"></div>
@@ -262,12 +180,13 @@ Invalid Code
 </div>
 
 <audio id="music">
-<source src="audio/denied.mp3" type="audio/mpeg">
+<source src="denied.mp3" type="audio/mpeg">
 </audio>
 
 <script>
 
 const PASSWORD = "252";
+const TARGET_URL = "https://google.com";
 
 function login(){
 
@@ -277,31 +196,6 @@ document.getElementById("code")
 .trim();
 
 if(value === PASSWORD){
-
-startSequence();
-
-}else{
-
-const box =
-document.getElementById("box");
-
-document
-.getElementById("error")
-.style.display = "block";
-
-box.classList.add("shake");
-
-setTimeout(()=>{
-
-box.classList.remove("shake");
-
-},350);
-
-}
-
-}
-
-function startSequence(){
 
 document
 .getElementById("fade")
@@ -315,9 +209,35 @@ music.play().catch(()=>{});
 music.onended = ()=>{
 
 window.location.href =
-"https://viet69.be/";
+TARGET_URL;
 
 };
+
+music.onerror = ()=>{
+
+window.location.href =
+TARGET_URL;
+
+};
+
+}else{
+
+const box =
+document.getElementById("box");
+
+document
+.getElementById("error")
+.style.display="block";
+
+box.classList.add("shake");
+
+setTimeout(()=>{
+
+box.classList.remove("shake");
+
+},350);
+
+}
 
 }
 
@@ -337,3 +257,4 @@ login();
 
 </body>
 </html>
+```
